@@ -317,11 +317,7 @@ const moviesController = {
             let movieId = req.params.id;
 
             const deletedMovie = await db.Movie.findByPk(movieId);
-
-            if(!deletedMovie) {
-                throw createError(404, 'No se existe una película con esa ID.');
-            }
-
+            
             await db.Actor.update({
                     favorite_movie_id: null
                 },
