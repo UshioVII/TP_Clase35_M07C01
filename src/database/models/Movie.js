@@ -1,5 +1,8 @@
+const { objectValidate, defaultValidate } = require('../resources');
+const currentDate = new Date();
+
 module.exports = (sequelize, dataTypes) => {
-    let alias = 'Movie'; // esto debería estar en singular
+    let alias = 'Movie';
     let cols = {
         id: {
             type: dataTypes.BIGINT(10).UNSIGNED,
@@ -11,19 +14,35 @@ module.exports = (sequelize, dataTypes) => {
         // updated_at: dataTypes.TIMESTAMP,
         title: {
             type: dataTypes.STRING(500),
-            allowNull: false
+            allowNull: false,
+            validate : {
+                ...defaultValidate
+            }
         },
         rating: {
             type: dataTypes.DECIMAL(3, 1).UNSIGNED,
-            allowNull: false
+            allowNull: false,
+            validate : {
+                ...defaultValidate
+            }
         },
         awards: {
             type: dataTypes.BIGINT(10).UNSIGNED,
-            allowNull: false
+            allowNull: false,
+            validate : {
+                ...defaultValidate
+            }
         },
         release_date: {
             type: dataTypes.DATEONLY,
-            allowNull: false
+            allowNull: false,
+            validate : {
+                ...defaultValidate,
+                isBefore : {
+                    args: `${currentDate.getFullYear()}/${currentDate.getMonth()}/${currentDate.getDate()}`,
+                    msg: 'La fecha debe ser anterior a la actual'
+                }
+            }
         },
         length: dataTypes.BIGINT(10),
         genre_id: dataTypes.BIGINT(10)

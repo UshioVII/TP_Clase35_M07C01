@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const methodOverride = require('method-override');
 const app = express();
 
 
@@ -11,8 +12,9 @@ const genresRoutes = require('./routes/genresRoutes');
 //Aquí pueden colocar las rutas de las APIs
 
 
-
-
+// view engine setup
+app.set('views', path.resolve(__dirname, './views'));
+app.set('view engine', 'ejs');
 
 app.use(express.static(path.resolve(__dirname, '../public')));
 
@@ -26,6 +28,5 @@ app.use('/', indexRouter);
 app.use('/movies', moviesRoutes);
 app.use('/genres', genresRoutes);
 
-app.use('*', (req, res) => res.status(404).json({msg: 'Ruta no encontrada.'}));
 //Activando el servidor desde express
 app.listen('3001', () => console.log('Servidor corriendo en el puerto 3001'));
